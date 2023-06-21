@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Note_app_example"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".feature_notes.presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
