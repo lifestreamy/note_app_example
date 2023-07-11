@@ -1,5 +1,6 @@
 package com.github.note_app_example.feature_notes.presentation.add_edit_note_screen
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -7,9 +8,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -22,11 +28,15 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.github.note_app_example.common.presentation.components.custom_snackbar.CustomSnackbar
 import com.github.note_app_example.feature_notes.domain.model.Note
 import com.github.note_app_example.feature_notes.presentation.add_edit_note_screen.components.TransparentHintTextField
+import com.github.note_app_example.ui.theme.Typography
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+//Migrated to Material 3
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter") //Because there is no bottom bar in the scaffold
 @Composable
 fun AddEditNoteScreen(
     navController: NavController, noteColor: Int, viewModel: AddEditNoteViewModel = hiltViewModel()
@@ -34,25 +44,30 @@ fun AddEditNoteScreen(
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val noteBackgroundAnimatable = remember {
         Animatable(
             Color(if (noteColor != -1) noteColor else viewModel.noteColor.value)
         )
     }
-    val scope = rememberCoroutineScope()
+    val localCoroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true){
-        viewModel.eventFlow.collectLatest {event ->
-            when(event){
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
                 is AddEditNoteViewModel.UiEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message
+                    // TODO: custom snackbar
+                    snackbarHostState.showSnackbar(
+                        message = event.message,
+                        withDismissAction = false,
+                        duration = SnackbarDuration.Short,
+                        actionLabel = null
                     )
                 }
+
                 is AddEditNoteViewModel.UiEvent.SaveNote -> {
-                      navController.navigateUp()
+                    navController.navigateUp()
                 }
             }
         }
@@ -65,12 +80,31 @@ fun AddEditNoteScreen(
                 onClick = {
                     viewModel.onEvent(AddEditNoteEvent.SaveNote)
                 },
-                backgroundColor = MaterialTheme.colors.primary
+                containerColor = Color.White,
+                modifier = Modifier.padding(10.dp)
             ) {
                 Icon(imageVector = Icons.Default.Save, contentDescription = "Save note")
             }
         },
-        scaffoldState = scaffoldState
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .requiredHeight(70.dp)
+            ) { snackbarData ->
+                CustomSnackbar(
+                    snackbarData,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .requiredHeight(40.dp)
+                        .padding(horizontal = 30.dp, vertical = 0.dp),
+                    textColor = Color.White.copy(alpha = 0.8f),
+                    surfaceColor = Color.DarkGray.copy(alpha = 0.5f),
+                    borderColor = Color.Transparent
+                )
+            }
+        }
     ) {
         Column(
             modifier = Modifier
@@ -100,7 +134,7 @@ fun AddEditNoteScreen(
                                 shape = CircleShape
                             )
                             .clickable {
-                                scope.launch {
+                                localCoroutineScope.launch {
                                     noteBackgroundAnimatable.animateTo(
                                         targetValue = Color(colorInt),
                                         animationSpec = tween(
@@ -125,7 +159,8 @@ fun AddEditNoteScreen(
                 },
                 isHintVisible = titleState.isHintVisible,
                 singleLine = true,
-                textStyle = MaterialTheme.typography.h5
+                // TODO: migrate app theme to Material 3 and use it here
+                textStyle = Typography.h5
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
@@ -138,7 +173,8 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangedContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,
-                textStyle = MaterialTheme.typography.body1,
+                // TODO: migrate app theme to Material 3 and use it here
+                textStyle = Typography.body1,
                 modifier = Modifier.fillMaxHeight()
             )
         }
