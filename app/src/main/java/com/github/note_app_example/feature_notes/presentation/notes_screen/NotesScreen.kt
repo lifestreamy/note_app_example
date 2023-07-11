@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sort
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -87,7 +89,11 @@ fun NotesScreen(
         },
         containerColor = DarkGray
     ) {
-        Box(modifier = Modifier.padding(horizontal = 15.dp)) {
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+        ) {
             Column(
                 modifier = Modifier.align(Alignment.TopCenter)
             ) {
@@ -102,7 +108,9 @@ fun NotesScreen(
                     }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Sort, tint = Color.White, contentDescription = "Sort"
+                            imageVector = Icons.Default.Sort,
+                            tint = Color.White,
+                            contentDescription = "Sort"
                         )
                     }
                 }
@@ -120,7 +128,11 @@ fun NotesScreen(
                         })
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                ) {
                     items(state.notes) { note ->
                         NoteItem(note = note, modifier = Modifier
                             .fillMaxWidth()

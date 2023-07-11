@@ -17,7 +17,7 @@ object NoteColors1 {
 //object NoteColors2 {
     val ImperialRed = Color(0xffF21E36)
     val Verdigris = Color(0xff7EBDC2)
-    val GoldMetallic = Color(0xffD1AC00)
+    val GoldMetallic = Color(0xFFFFE025)
     val DarkPastelGreen = Color(0xff0CCA4A)
     val LightOrange = Color(0xffF9DBBD)
 //}
