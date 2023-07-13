@@ -2,7 +2,7 @@ package com.github.note_app_example.feature_notes.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.github.note_app_example.ui.theme.DarkPastelGreen
+import com.github.note_app_example.ui.theme.MildGreen
 import com.github.note_app_example.ui.theme.GoldMetallic
 import com.github.note_app_example.ui.theme.ImperialRed
 import com.github.note_app_example.ui.theme.LightOrange
@@ -18,7 +18,7 @@ data class Note(
 ) {
     companion object {
         //        val noteColors = listOf(RedOrange, LightGreen, Violet, BabyBlue, RedPink)
-        val noteColors = listOf(ImperialRed, Verdigris, GoldMetallic, DarkPastelGreen, LightOrange)
+        val noteColors = listOf(ImperialRed, Verdigris, GoldMetallic, MildGreen, LightOrange)
     }
 }
 

@@ -20,12 +20,10 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -38,16 +36,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.github.note_app_example.R
 import com.github.note_app_example.common.presentation.components.custom_snackbar.CustomSnackbar
 import com.github.note_app_example.feature_notes.presentation.notes_screen.components.NoteItem
 import com.github.note_app_example.feature_notes.presentation.notes_screen.components.OrderSection
 import com.github.note_app_example.feature_notes.presentation.util.Screen
-import com.github.note_app_example.ui.theme.DarkGray
-import com.github.note_app_example.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 //Migrated to Material 3
@@ -66,10 +63,14 @@ fun NotesScreen(
                 onClick = {
                     navController.navigate(Screen.AddEditNoteScreen.route)
                 },
-                containerColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 1f),
                 modifier = Modifier.padding(10.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_add_24),
+                    contentDescription = "Add note",
+                    tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 1f)
+                )
             }
         },
         snackbarHost = {
@@ -83,11 +84,11 @@ fun NotesScreen(
                     snackbarData,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 30.dp, vertical = 12.dp)
-                )
+                        .padding(horizontal = 30.dp, vertical = 0.dp)
+                    )
             }
         },
-        containerColor = DarkGray
+        containerColor = MaterialTheme.colorScheme.background
     ) {
         Box(
             modifier = Modifier
@@ -102,14 +103,18 @@ fun NotesScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Your notes", style = Typography.h3, color = Color.White)
+                    Text(
+                        text = "Your notes",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                     IconButton(onClick = {
                         viewModel.onEvent(NotesEvent.ToggleOrderSection)
                     }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Sort,
-                            tint = Color.White,
+                            painter = painterResource(id = R.drawable.baseline_sort_24),
+                            tint = MaterialTheme.colorScheme.onBackground,
                             contentDescription = "Sort"
                         )
                     }
