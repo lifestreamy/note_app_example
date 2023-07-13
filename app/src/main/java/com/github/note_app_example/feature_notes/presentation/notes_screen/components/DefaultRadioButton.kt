@@ -3,10 +3,10 @@ package com.github.note_app_example.feature_notes.presentation.notes_screen.comp
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.RadioButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +27,11 @@ fun DefaultRadioButton(
             selected = selected,
             onClick = onSelect,
             colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colors.primary,
-                unselectedColor = MaterialTheme.colors.onBackground
+                selectedColor = MaterialTheme.colorScheme.primary,
+                unselectedColor = MaterialTheme.colorScheme.onBackground
             )
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text, style = MaterialTheme.typography.body1)
+        Text(text = text, style = MaterialTheme.typography.bodyMedium)
     }
 }

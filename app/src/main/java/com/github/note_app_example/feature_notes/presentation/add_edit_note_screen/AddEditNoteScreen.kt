@@ -8,10 +8,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -25,13 +24,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.github.note_app_example.R
 import com.github.note_app_example.common.presentation.components.custom_snackbar.CustomSnackbar
 import com.github.note_app_example.feature_notes.domain.model.Note
 import com.github.note_app_example.feature_notes.presentation.add_edit_note_screen.components.TransparentHintTextField
-import com.github.note_app_example.ui.theme.Typography
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -57,7 +57,6 @@ fun AddEditNoteScreen(
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is AddEditNoteViewModel.UiEvent.ShowSnackbar -> {
-                    // TODO: custom snackbar
                     snackbarHostState.showSnackbar(
                         message = event.message,
                         withDismissAction = false,
@@ -83,7 +82,11 @@ fun AddEditNoteScreen(
                 containerColor = Color.White,
                 modifier = Modifier.padding(10.dp)
             ) {
-                Icon(imageVector = Icons.Default.Save, contentDescription = "Save note")
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_save_24),
+                    tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 1f),
+                    contentDescription = "Save note"
+                )
             }
         },
         snackbarHost = {
@@ -159,8 +162,7 @@ fun AddEditNoteScreen(
                 },
                 isHintVisible = titleState.isHintVisible,
                 singleLine = true,
-                // TODO: migrate app theme to Material 3 and use it here
-                textStyle = Typography.h5
+                textStyle = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
@@ -173,8 +175,7 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangedContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,
-                // TODO: migrate app theme to Material 3 and use it here
-                textStyle = Typography.body1,
+                textStyle = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.fillMaxHeight()
             )
         }

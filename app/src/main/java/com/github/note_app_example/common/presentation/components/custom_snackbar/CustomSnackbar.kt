@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarData
 import androidx.compose.material3.SnackbarDuration
@@ -34,10 +34,10 @@ import java.util.Locale
 fun CustomSnackbar(
     snackbarData: SnackbarData,
     modifier: Modifier = Modifier,
-    surfaceColor: Color = Color.DarkGray,
-    borderColor: Color = LightGreen,
-    textColor: Color = Color.White,
-    actionTextColor: Color = LightGreen
+    surfaceColor: Color = MaterialTheme.colorScheme.surface,
+    textColor: Color = MaterialTheme.colorScheme.onSurface,
+    actionTextColor: Color = MaterialTheme.colorScheme.primary,
+    borderColor: Color = MaterialTheme.colorScheme.primary
 ) {
     val visuals = snackbarData.visuals
 
@@ -45,7 +45,7 @@ fun CustomSnackbar(
         shape = MaterialTheme.shapes.medium,
         color = surfaceColor,
         modifier = modifier,
-        border = BorderStroke(2.dp, color = borderColor)
+        border = BorderStroke(5.dp, color = borderColor)
 
     ) {
         Row(
@@ -103,7 +103,7 @@ private object FakeSnackbarData : SnackbarData {
 
 
 @Composable
-private fun CustomSnackbarExample(isSemiTransparent : Boolean = false) {
+private fun CustomSnackbarExample(isSemiTransparent: Boolean = false) {
     CustomSnackbar(
         snackbarData = FakeSnackbarData,
         modifier = Modifier.padding(horizontal = 30.dp, vertical = 15.dp),
@@ -119,7 +119,6 @@ private fun CustomSnackbarExample(isSemiTransparent : Boolean = false) {
 private fun CustomSnackbarPreview() {
     CustomSnackbarExample()
 }
-
 
 
 @Preview(showBackground = false)
@@ -138,8 +137,7 @@ private fun CustomSnackbarWithButtonPreview() {
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 SnackbarHost(
-                    hostState = snackbarHostState,
-                    modifier = Modifier.align(Alignment.TopCenter)
+                    hostState = snackbarHostState, modifier = Modifier.align(Alignment.TopCenter)
                 ) {
                     CustomSnackbarExample(isSemiTransparent = true)
                 }
@@ -149,15 +147,13 @@ private fun CustomSnackbarWithButtonPreview() {
                         Alignment.Center
                     ),
                     colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.DarkGray
+                        containerColor = Color.White, contentColor = Color.DarkGray
                     )
                 ) {
                     Text(text = "Test snackbar")
                 }
                 SnackbarHost(
-                    hostState = snackbarHostState,
-                    modifier = Modifier.align(Alignment.BottomCenter)
+                    hostState = snackbarHostState, modifier = Modifier.align(Alignment.BottomCenter)
                 ) {
                     CustomSnackbarExample()
                 }
